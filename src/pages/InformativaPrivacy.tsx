@@ -20,11 +20,11 @@ export default function InformativaPrivacy () {
           <p>
             Il Titolare del trattamento è la ditta individuale:
             {' '}
-            <strong>[DA COMPILARE: Nome e Cognome]</strong>
+            <strong>[Lorella Trocchi]</strong>
             {' '}
             con sede in
             {' '}
-            <strong>[DA COMPILARE: Indirizzo]</strong>
+            <strong>[Via Edoardo Barberini, 24, 05100 Terni TR]</strong>
             {' '}
             (CF/P.IVA:
             {' '}
@@ -135,10 +135,7 @@ export default function InformativaPrivacy () {
             <li><strong>Richieste di contatto</strong>: per il tempo necessario a gestire la richiesta e, di norma, fino a 12 mesi per esigenze organizzative e tutela dei diritti.</li>
             <li><strong>Log tecnici e sicurezza</strong>: per il tempo strettamente necessario e secondo i tempi tecnici del fornitore/hosting, salvo necessità di accertamento di illeciti.</li>
           </ul>
-          <p className="muted">
-            Nota: se il sito viene usato per vendite online, alcuni dati possono essere conservati per periodi più lunghi
-            per obblighi contabili e fiscali.
-          </p>
+          
         </div>
       </section>
 
