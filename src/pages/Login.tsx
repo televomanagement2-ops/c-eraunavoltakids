@@ -131,7 +131,7 @@ export default function Login () {
           <h1>{mode === 'login' ? 'Accedi' : 'Crea un account'}</h1>
           <p>
             {configured
-              ? 'Usa email e password oppure Google (se abilitato nella dashboard Supabase).'
+              ? 'Inserisci le tue credenziali per continuare.'
               : 'Aggiungi VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY nel file .env.'}
           </p>
         </div>

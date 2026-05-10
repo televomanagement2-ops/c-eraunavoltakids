@@ -6,9 +6,24 @@ import { storeBannerAlts, storeBannerUrls } from '../data/mockStoreImages'
 export default function AboutStore() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    window.alert(
-      'Grazie. Il modulo non è ancora collegato: integreremo raccolta messaggi dopo il backend.',
+    const form = e.currentTarget
+    const name = (form.elements.namedItem('name') as HTMLInputElement | null)?.value?.trim() ?? ''
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement | null)?.value?.trim() ?? ''
+
+    const to = 'ceraunavoltakidz@gmail.com'
+    const subject = encodeURIComponent('Richiesta supporto — C’era una volta kids')
+    const body = encodeURIComponent(
+      [
+        `Nome: ${name || '-'}`,
+        '',
+        message || '',
+        '',
+        '---',
+        'Inviato dal sito (form Contattaci).',
+      ].join('\n'),
     )
+
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`
   }
 
   return (
@@ -25,7 +40,7 @@ export default function AboutStore() {
       </section>
 
       <section className="section">
-        <div className="section__header contact-block__header">
+        <div className="section__header contact-block__header" id="contattaci">
           <span className="eyebrow">Contattaci</span>
           <h2>Siamo qui per te</h2>
           <p>Scrivici per consiglio taglie o per organizzare un passaggio in boutique.</p>
@@ -34,13 +49,13 @@ export default function AboutStore() {
           <div className="contact-block__aside">
             <p>
               <strong>Email:</strong>{' '}
-              <a href="mailto:ciao@kids.example">ciao@kids.example</a>
+              <a href="mailto:ceraunavoltakidz@gmail.com">ceraunavoltakidz@gmail.com</a>
             </p>
             <p>
               <strong>Telefono:</strong>{' '}
-              <a href="tel:+390000000000">+39 000 000 0000</a>
+              <a href="tel:0744404633">0744 404633</a>
             </p>
-            <p className="muted">Orari lun–sab 9:30–19:30 (mock)</p>
+            <p className="muted">Orari lun–sab 9:30–20:00</p>
           </div>
           <form className="contact-block__form" onSubmit={onSubmit}>
             <label className="contact-field">
@@ -52,7 +67,7 @@ export default function AboutStore() {
               <textarea name="message" rows={4} required placeholder="Come possiamo aiutarti?" />
             </label>
             <button type="submit" className="button button--primary">
-              Invia (demo)
+              Invia email
             </button>
           </form>
         </div>

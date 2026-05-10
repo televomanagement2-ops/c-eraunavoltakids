@@ -1,7 +1,16 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
+function normalizeSupabaseUrl (raw: string): string {
+  let url = raw.trim()
+  // Molti copiano per errore l'endpoint REST (`/rest/v1`). Supabase client vuole l'origin del progetto.
+  url = url.replace(/\/rest\/v1\/?$/i, '')
+  // Rimuovi slash finali extra per evitare doppi slash negli URL generati dal client.
+  url = url.replace(/\/+$/, '')
+  return url
+}
+
 function readEnv (): { url: string; anonKey: string } | null {
-  const url = import.meta.env.VITE_SUPABASE_URL?.trim() ?? ''
+  const url = normalizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL ?? '')
   const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() ?? ''
   if (!url || !anonKey) return null
   return { url, anonKey }
@@ -22,6 +31,7 @@ export function getSupabase (): SupabaseClient | null {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
+      flowType: 'pkce',
     },
   })
   return cached

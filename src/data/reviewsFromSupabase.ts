@@ -36,7 +36,11 @@ export async function listReviewsWithAuthors (
     .eq('product_id', productId)
     .order('created_at', { ascending: false })
 
-  if (error || !reviews?.length) return []
+  if (error) {
+    console.error('[supabase] lettura reviews:', error.message)
+    return []
+  }
+  if (!reviews?.length) return []
 
   type RRow = {
     id: string
@@ -48,10 +52,14 @@ export async function listReviewsWithAuthors (
 
   const rows = reviews as RRow[]
   const ids = [...new Set(rows.map((r) => r.user_id))]
-  const { data: profs } = await sb
+  const { data: profs, error: profErr } = await sb
     .from('profiles')
     .select('id, full_name')
     .in('id', ids)
+  if (profErr) {
+    // Se RLS blocca, mostriamo comunque le recensioni con autore generico.
+    console.error('[supabase] lettura profiles (autori recensioni):', profErr.message)
+  }
 
   type PRow = { id: string; full_name: string | null }
   const nameById = new Map<string, string | null>(

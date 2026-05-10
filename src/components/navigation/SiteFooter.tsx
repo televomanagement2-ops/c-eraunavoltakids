@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { BrandMarkStatic } from './BrandMark'
 
 export function SiteFooter() {
@@ -34,25 +35,6 @@ export function SiteFooter() {
           </svg>
           <span>Materiali scelti</span>
         </div>
-        <div className="trust-pill">
-          <svg viewBox="0 0 24 24" aria-hidden="true" className="trust-pill__icon">
-            <path
-              d="M4 12a8 8 0 0 1 16 0"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <path
-              d="M8 12h8M12 8v8"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-          </svg>
-          <span>Resi semplici</span>
-        </div>
       </div>
 
       <div className="site-footer__main">
@@ -66,9 +48,10 @@ export function SiteFooter() {
         <div className="site-footer__columns">
           <div>
             <h4>Contattaci</h4>
-            <p>Chat live</p>
-            <p>Supporto email</p>
-            <p>+39 000 000 0000</p>
+            <p>
+              <Link to="/chi-siamo#contattaci">Supporto email</Link>
+            </p>
+            <p>0744 404633</p>
           </div>
           <div>
             <h4>Aiuto</h4>
@@ -78,15 +61,24 @@ export function SiteFooter() {
           </div>
           <div>
             <h4>Azienda</h4>
-            <p>Chi siamo</p>
-            <p>Categorie</p>
-            <p>Impostazioni</p>
+            <p>
+              <Link to="/chi-siamo">Chi siamo</Link>
+            </p>
+            <p>
+              <Link to="/catalogo">Categorie</Link>
+            </p>
           </div>
           <div>
             <h4>Privacy</h4>
-            <p>Informativa privacy</p>
-            <p>Termini di servizio</p>
-            <p>Preferenze cookie</p>
+            <p>
+              <Link to="/informativa-privacy">Informativa privacy</Link>
+            </p>
+            <p>
+              <Link to="/termini-di-servizio">Termini di servizio</Link>
+            </p>
+            <p>
+              <Link to="/cookie-policy">Cookie policy</Link>
+            </p>
           </div>
         </div>
       </div>

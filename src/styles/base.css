@@ -37,6 +37,21 @@ a {
   text-decoration: none;
 }
 
+/* Evita l'highlight blu al tap su mobile (iOS/Android). */
+:where(a, button, input, select, textarea, [role='button']) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Manteniamo un focus visibile per tastiera/accessibilità. */
+:where(a, button, input, select, textarea, [role='button']):focus {
+  outline: none;
+}
+
+:where(a, button, input, select, textarea, [role='button']):focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
 button,
 input,
 select {

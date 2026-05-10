@@ -19,6 +19,7 @@ type ProductRow = {
 
 function mockFallbackWhenDbEmpty (): boolean {
   if (!isSupabaseConfigured()) return true
+  // Se forzato, usa sempre i mock (utile in sviluppo/demo).
   return import.meta.env.VITE_USE_CATALOG_MOCK === 'true'
 }
 
@@ -73,14 +74,15 @@ async function fetchFromSupabase (): Promise<Product[]> {
 
   if (error) {
     console.error('[supabase] lettura prodotti:', error.message)
-    if (mockFallbackWhenDbEmpty()) return mockProducts
-    return []
+    return mockProducts
   }
   const rows = (data ?? []) as ProductRow[]
   if (!rows.length) {
-    if (mockFallbackWhenDbEmpty()) return mockProducts
-    return []
+    // Se il DB è vuoto, mostriamo comunque i mock così la vetrina non risulta “spenta”.
+    return mockProducts
   }
+  // Override: se richiesto, mostra i mock anche se ci sono righe nel DB.
+  if (mockFallbackWhenDbEmpty()) return mockProducts
   return rows.map(mapProductRowToProduct)
 }
 
