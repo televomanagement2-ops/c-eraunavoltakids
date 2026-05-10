@@ -4,10 +4,10 @@ import { u } from './mockProducts'
 export const heroSlides: HeroSlide[] = [
   {
     id: 'slide-hero-1',
-    tag: 'In primo piano',
-    title: 'Cogli il momento',
+    tag: 'Per ogni età',
+    title: 'Stile che accompagna',
     subtitle:
-      'Scopri lo stile per tutte le età — completini delicati fino ai look da parco più vivaci.',
+      'Capi comodi, curati e facili da abbinare per bambini, ragazzi e i loro ritmi di ogni giorno.',
     accent: 'accent-a',
     images: [
       u('photo-1503454537195-1dcabb73ffb9'),
@@ -24,10 +24,10 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: 'slide-hero-2',
-    tag: 'Dal nido alla classe',
-    title: 'Morbidi, pratici e colorati',
+    tag: 'Scuola e tempo libero',
+    title: 'Pronti ogni giorno',
     subtitle:
-      'Strati semplici da togliere e capi resistenti al gioco perché anche le mamme prendono sempre meno tempo.',
+      'Felpe, maglie e pantaloni pensati per muoversi, studiare e uscire con uno stile pulito e attuale.',
     accent: 'accent-b',
     images: [
       u('photo-1544367567-0f2fcb009e0b'),
@@ -44,10 +44,10 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: 'slide-hero-3',
-    tag: 'Storie italiane',
-    title: 'Un mondo anche dietro casa',
+    tag: 'Essenziale, sempre',
+    title: 'Linee pulite, look attuali',
     subtitle:
-      'Materiali delicati sulla pelle, colori ispirati ai paesaggi e alle mattine serene al mercato locale.',
+      'Tessuti piacevoli e dettagli versatili per vestire con semplicità dalla mattina alla sera.',
     accent: 'accent-c',
     images: [
       u('photo-1609220136736-443140cffec6'),
