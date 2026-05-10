@@ -9,6 +9,7 @@ import {
 } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { getSupabase, isSupabaseConfigured } from '../lib/supabase'
+import { mapAuthErrorToMessage } from '../lib/mapAuthError'
 
 export type UserProfile = {
   id: string
@@ -18,6 +19,12 @@ export type UserProfile = {
 }
 
 type AuthStatus = 'unknown' | 'signedOut' | 'signedIn'
+
+type SignUpResult = {
+  error: Error | null
+  /** True se Supabase richiede conferma email prima della sessione */
+  pendingEmailConfirmation?: boolean
+}
 
 type AuthContextValue = {
   status: AuthStatus
@@ -30,6 +37,11 @@ type AuthContextValue = {
     email: string,
     password: string,
   ) => Promise<{ error: Error | null }>
+  signUp: (params: {
+    email: string
+    password: string
+    fullName?: string
+  }) => Promise<SignUpResult>
   signInWithGoogle: () => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
 }
@@ -52,7 +64,7 @@ async function fetchProfileRow (userId: string): Promise<UserProfile | null> {
     .maybeSingle()
 
   if (error || !data) {
-    console.error('[supabase] profilo:', error?.message)
+    if (error?.message) console.error('[supabase] profilo:', error.message)
     return null
   }
 
@@ -63,6 +75,21 @@ async function fetchProfileRow (userId: string): Promise<UserProfile | null> {
     avatar_url: row.avatar_url,
     role: row.role === 'admin' ? 'admin' : 'customer',
   }
+}
+
+async function loadProfileWithEnsure (userId: string): Promise<UserProfile | null> {
+  const sb = getSupabase()
+  let row = await fetchProfileRow(userId)
+  if (row || !sb) return row
+
+  const { error: rpcErr } = await sb.rpc('ensure_profile')
+  if (rpcErr) {
+    console.error('[supabase] ensure_profile:', rpcErr.message)
+    return null
+  }
+
+  row = await fetchProfileRow(userId)
+  return row
 }
 
 export function AuthProvider ({ children }: { children: ReactNode }) {
@@ -79,7 +106,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
       setProfile(null)
       return
     }
-    const row = await fetchProfileRow(uid)
+    const row = await loadProfileWithEnsure(uid)
     setProfile(row)
   }, [sb, session?.user?.id])
 
@@ -119,7 +146,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
       setProfile(null)
       return
     }
-    void fetchProfileRow(session.user.id).then(setProfile)
+    void loadProfileWithEnsure(session.user.id).then(setProfile)
   }, [sb, session?.user?.id])
 
   const signInWithEmail = useCallback(
@@ -131,7 +158,41 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
         email: email.trim(),
         password,
       })
-      return { error }
+      if (!error) return { error: null }
+      return { error: new Error(mapAuthErrorToMessage(error)) }
+    },
+    [sb],
+  )
+
+  const signUp = useCallback(
+    async ({
+      email,
+      password,
+      fullName,
+    }: {
+      email: string
+      password: string
+      fullName?: string
+    }): Promise<SignUpResult> => {
+      if (!sb) {
+        return { error: new Error('Supabase non configurato (variabili env mancanti).') }
+      }
+      const { data, error } = await sb.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
+          data: {
+            full_name: fullName?.trim() ?? undefined,
+            name: fullName?.trim() ?? undefined,
+          },
+        },
+      })
+      if (error) {
+        return { error: new Error(mapAuthErrorToMessage(error)) }
+      }
+      const pending =
+        Boolean(data.user) && !data.session
+      return { error: null, pendingEmailConfirmation: pending }
     },
     [sb],
   )
@@ -145,7 +206,8 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
       provider: 'google',
       options: { redirectTo },
     })
-    return { error }
+    if (!error) return { error: null }
+    return { error: new Error(mapAuthErrorToMessage(error)) }
   }, [sb])
 
   const signOut = useCallback(async () => {
@@ -162,6 +224,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
       profile,
       refreshProfile,
       signInWithEmail,
+      signUp,
       signInWithGoogle,
       signOut,
     }),
@@ -170,6 +233,7 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
       refreshProfile,
       session,
       signInWithEmail,
+      signUp,
       signInWithGoogle,
       signOut,
       status,

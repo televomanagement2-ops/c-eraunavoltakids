@@ -1,6 +1,10 @@
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
-export function BottomTabs() {
+export function BottomTabs () {
+  const { status } = useAuth()
+  const profiloLabel = status === 'signedIn' ? 'Account' : 'Profilo'
+
   return (
     <nav className="bottom-tabs">
       <NavLink to="/" end className="bottom-tabs__item">
@@ -41,7 +45,7 @@ export function BottomTabs() {
             strokeWidth="1.8"
           />
         </svg>
-        Profilo
+        {profiloLabel}
       </NavLink>
     </nav>
   )

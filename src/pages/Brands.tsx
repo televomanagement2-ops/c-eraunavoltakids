@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react'
 import { PageShell } from '../components/layout/PageShell'
 import { BrandDetailModal } from '../components/brands/BrandDetailModal'
-import { brands } from '../data/mockBrands'
+import type { BrandProfile } from '../data/mockBrands'
+import { brands as mockBrands } from '../data/mockBrands'
+import { loadBrandsFromSupabase } from '../data/brandsFromSupabase'
 
 const ROTATE_MS = 4000
 
-export default function Brands() {
+export default function Brands () {
+  const [brands, setBrands] = useState<BrandProfile[]>(mockBrands)
   const [index, setIndex] = useState(0)
-  const [detail, setDetail] = useState<(typeof brands)[number] | null>(null)
+  const [detail, setDetail] = useState<BrandProfile | null>(null)
+
+  useEffect(() => {
+    void loadBrandsFromSupabase().then((list) => {
+      setBrands(list)
+      setIndex(0)
+    })
+  }, [])
 
   useEffect(() => {
     if (brands.length <= 1 || detail !== null) return
@@ -15,7 +25,7 @@ export default function Brands() {
       setIndex((i) => (i + 1) % brands.length)
     }, ROTATE_MS)
     return () => window.clearInterval(id)
-  }, [detail])
+  }, [brands.length, detail])
 
   useEffect(() => {
     if (!detail) return
@@ -31,7 +41,17 @@ export default function Brands() {
     }
   }, [detail])
 
-  const active = brands[index]!
+  const active = brands[index]
+
+  if (!active) {
+    return (
+      <PageShell footerOnMobile>
+        <section className="section">
+          <p className="muted">Caricamento marchi…</p>
+        </section>
+      </PageShell>
+    )
+  }
 
   return (
     <PageShell footerOnMobile>

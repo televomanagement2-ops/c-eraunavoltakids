@@ -17,6 +17,11 @@ type ProductRow = {
   rating: number | string | null
 }
 
+function mockFallbackWhenDbEmpty (): boolean {
+  if (!isSupabaseConfigured()) return true
+  return import.meta.env.VITE_USE_CATALOG_MOCK === 'true'
+}
+
 function asProductCategories (sizes: string[]): Product['sizes'] {
   return sizes.map((s) => s as ProductSize)
 }
@@ -68,23 +73,27 @@ async function fetchFromSupabase (): Promise<Product[]> {
 
   if (error) {
     console.error('[supabase] lettura prodotti:', error.message)
-    return mockProducts
+    if (mockFallbackWhenDbEmpty()) return mockProducts
+    return []
   }
   const rows = (data ?? []) as ProductRow[]
-  if (!rows.length) return mockProducts
+  if (!rows.length) {
+    if (mockFallbackWhenDbEmpty()) return mockProducts
+    return []
+  }
   return rows.map(mapProductRowToProduct)
 }
 
 /**
- * Lista catalogo per le pagine storefront: usa Supabase quando configurato;
- * su errore DB o lista vuota torna ai mock così il sito resta navigabile prima del seed.
+ * Lista catalogo: con Supabase configurato usa il DB; se vuoto ed è attivo
+ * VITE_USE_CATALOG_MOCK torna ai mock, altrimenti lista vuota.
  */
 export async function loadCatalogProducts (): Promise<Product[]> {
   if (!isSupabaseConfigured()) return mockProducts
   return fetchFromSupabase()
 }
 
-/** Carica una sola volta (per sessione SPA) così Catalog / Home / dettaglio condividono i dati. */
+/** Carica una volta per sessione SPA. */
 export async function getCatalogProductsCached (): Promise<Product[]> {
   if (catalogCache) return catalogCache
   if (!inflight) inflight = loadCatalogProducts().then((p) => p)

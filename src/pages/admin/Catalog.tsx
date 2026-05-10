@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import type { Product } from '../../types'
 import { useCatalogProducts } from '../../hooks/useCatalogProducts'
+import { invalidateCatalogCache } from '../../data/productsFromSupabase'
+import { getSupabase, isSupabaseConfigured } from '../../lib/supabase'
 
 export default function AdminCatalog () {
   const { products, status } = useCatalogProducts()
   const [items, setItems] = useState<Product[]>([])
+  const [savingId, setSavingId] = useState<string | null>(null)
 
   useEffect(() => {
-    if (status === 'ready' && products.length) {
+    if (status === 'ready') {
       setItems(products)
     }
   }, [products, status])
@@ -16,6 +19,30 @@ export default function AdminCatalog () {
     setItems((prev) =>
       prev.map((item) => (item.id === id ? { ...item, ...patch } : item)),
     )
+  }
+
+  const persistRow = async (item: Product) => {
+    if (!isSupabaseConfigured()) {
+      window.alert('Supabase non configurato.')
+      return
+    }
+    const sb = getSupabase()
+    if (!sb) return
+    setSavingId(item.id)
+    const { error } = await sb
+      .from('products')
+      .update({
+        stock: item.stock,
+        is_new: item.isNew,
+        is_sold_out: item.isSoldOut,
+      })
+      .eq('id', item.id)
+    setSavingId(null)
+    if (error) {
+      window.alert(`Salvataggio non riuscito: ${error.message}`)
+      return
+    }
+    invalidateCatalogCache()
   }
 
   if (status === 'loading') {
@@ -85,8 +112,13 @@ export default function AdminCatalog () {
                 />
                 <span>Esaurito</span>
               </label>
-              <button type="button" className="button button--ghost">
-                Aggiorna stock
+              <button
+                type="button"
+                className="button button--ghost"
+                disabled={savingId === item.id}
+                onClick={() => void persistRow(item)}
+              >
+                {savingId === item.id ? 'Salvataggio…' : 'Aggiorna stock'}
               </button>
             </div>
           </div>

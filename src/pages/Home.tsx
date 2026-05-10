@@ -94,10 +94,12 @@ function HomeDesktop () {
             Vedi tutto
           </Link>
         </div>
-        {showShelf ? (
-          <ProductGrid products={products.slice(0, 6)} />
-        ) : (
+        {!showShelf ? (
           <p className="muted">Caricamento catalogo…</p>
+        ) : products.length === 0 ? (
+          <p className="muted">Nessun prodotto in vetrina al momento.</p>
+        ) : (
+          <ProductGrid products={products.slice(0, 6)} />
         )}
       </section>
       <HomeStories />
@@ -145,10 +147,12 @@ function HomeMobile () {
             Vedi tutto
           </Link>
         </div>
-        {showShelf ? (
-          <ProductGrid products={products.slice(0, 8)} variant="compact" />
-        ) : (
+        {!showShelf ? (
           <p className="muted">Caricamento catalogo…</p>
+        ) : products.length === 0 ? (
+          <p className="muted">Nessun prodotto in vetrina al momento.</p>
+        ) : (
+          <ProductGrid products={products.slice(0, 8)} variant="compact" />
         )}
       </section>
       <HomeStories />

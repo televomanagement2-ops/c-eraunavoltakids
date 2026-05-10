@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { PageShell } from '../components/layout/PageShell'
+import { ProductReviews } from '../components/product/ProductReviews'
 import { ProductGrid } from '../components/products/ProductGrid'
 import { useCatalogProducts } from '../hooks/useCatalogProducts'
 import { useMediaQuery } from '../hooks/useMediaQuery'
@@ -116,18 +117,11 @@ export default function ProductDetail () {
         <div className="section__header">
           <div>
             <span className="eyebrow">RECENSIONI</span>
-            <h3>Scrivi una recensione</h3>
-            <p>La tua valutazione: 5 stelle</p>
+            <h3>Dicono di questo prodotto</h3>
+            <p>Valutazioni e commenti dai clienti.</p>
           </div>
         </div>
-        <div className="review-card">
-          <p className="muted">
-            Questo prodotto non ha ancora recensioni. Condividi la tua.
-          </p>
-          <button type="button" className="button button--ghost">
-            Lascia una recensione
-          </button>
-        </div>
+        <ProductReviews productId={product.id} />
       </section>
       <section className="section">
         <div className="section__header">

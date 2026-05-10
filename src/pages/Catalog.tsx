@@ -103,6 +103,29 @@ export default function Catalog() {
     )
   }
 
+  if (catalogStatus === 'ready' && catalogProducts.length === 0) {
+    return (
+      <PageShell>
+        <section className="section section--catalog">
+          <div className="section__header">
+            <div>
+              <span className="eyebrow">Catalogo</span>
+              <h2>Stiamo aggiornando la vetrina</h2>
+              <p>
+                Non ci sono ancora prodotti online. Controlla di aver importato il
+                catalogo in Supabase, oppure abilita il fallback mock in sviluppo
+                con VITE_USE_CATALOG_MOCK=true.
+              </p>
+            </div>
+            <Link to="/" className="section__link">
+              Torna alla home
+            </Link>
+          </div>
+        </section>
+      </PageShell>
+    )
+  }
+
   return (
     <PageShell>
       <section className="section section--catalog">

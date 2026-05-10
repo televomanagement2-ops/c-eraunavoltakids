@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../../context/AuthContext'
 import { shopShelfChips } from '../../data/mockProducts'
 import { BrandMarkLink } from './BrandMark'
 
@@ -9,6 +10,8 @@ type DesktopNavProps = {
 
 export function DesktopNav({ onOpenSidebar }: DesktopNavProps) {
   const navigate = useNavigate()
+  const { status, profile, signOut } = useAuth()
+  const signedIn = status === 'signedIn'
   const [search, setSearch] = useState('')
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -82,11 +85,35 @@ export function DesktopNav({ onOpenSidebar }: DesktopNavProps) {
             <NavLink to="/catalogo">Catalogo</NavLink>
           </nav>
           <div className="nav-utilities">
+            {profile?.role === 'admin' ? (
+              <Link
+                to="/admin"
+                className="button button--ghost button--compact nav-utilities__admin"
+              >
+                Admin
+              </Link>
+            ) : null}
+            {signedIn ? (
+              <button
+                type="button"
+                className="icon-button icon-button--ghost"
+                title="Esci"
+                aria-label="Disconnetti account"
+                onClick={() => void signOut()}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M10 17v-2h8V9h-8V7H8v10h2Zm-2 2H6l-5-5 5-5h2v3h10v4H8v3Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+            ) : null}
             <Link
               to="/login"
               className="icon-button icon-button--ghost"
-              title="Account"
-              aria-label="Accedi al profilo"
+              title={signedIn ? 'Il tuo account' : 'Accedi'}
+              aria-label={signedIn ? 'Vai all’account' : 'Accedi al profilo'}
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path

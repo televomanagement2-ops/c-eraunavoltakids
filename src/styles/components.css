@@ -1760,6 +1760,22 @@ button.icon-button {
   box-shadow: var(--shadow-soft);
 }
 
+.login-mode-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.login-mode-tabs .button {
+  flex: 1;
+}
+
+.login-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .login-card__notice {
   margin: 0 0 14px;
   padding: 10px 12px;
@@ -1804,6 +1820,56 @@ button.icon-button {
 .login-google__icon {
   width: 20px;
   height: 20px;
+}
+
+.review-list {
+  margin-bottom: 20px;
+}
+
+.review-list__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-list__item {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+}
+
+.review-list__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.review-list__stars {
+  letter-spacing: 0.06em;
+  color: var(--accent-strong);
+  font-size: 0.85rem;
+}
+
+.review-form {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-form__title {
+  margin: 0;
+  font-size: 1rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
