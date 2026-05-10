@@ -1,0 +1,36 @@
+.section--catalog {
+  gap: 32px;
+}
+
+.catalog-results {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-detail {
+  gap: 18px;
+}
+
+.product-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.product-detail__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-detail__options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.product-detail__options h4 {
+  font-size: 1rem;
+}

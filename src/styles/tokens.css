@@ -1,0 +1,47 @@
+:root {
+  color-scheme: light;
+  --bg: #fdfbf7;
+  --bg-alt: #f5f0e8;
+  --surface-1: #ffffff;
+  --surface-2: #f3efe6;
+  --surface-3: #ebe4d8;
+  --surface-4: #e2d9cc;
+  --border: rgba(62, 58, 52, 0.12);
+  --border-strong: rgba(62, 58, 52, 0.2);
+  --text: #2e2a26;
+  --muted: #6b645b;
+  --muted-strong: #4a4540;
+  --accent: #c4705a;
+  --accent-strong: #a85d48;
+  --accent-warm: #d4a03c;
+  --sage: #8fa89a;
+  --sage-soft: #c5d4ca;
+  --mustard: #e8c96a;
+  --dusty-rose: #d4a5a0;
+  --sky-soft: #b8c9d4;
+  --danger: #c44d4d;
+  --shadow-strong: 0 24px 48px rgba(62, 58, 52, 0.12);
+  --shadow-soft: 0 12px 32px rgba(62, 58, 52, 0.08);
+  --radius-sm: 14px;
+  --radius-md: 22px;
+  --radius-lg: 32px;
+  --radius-xl: 48px;
+  --content-width: 1200px;
+  --font-display: 'Montserrat', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-brands: 'Cormorant Garamond', Georgia, serif;
+  --card-tint-a: #f0e6c8;
+  --card-tint-b: #d8e4ec;
+  --card-tint-c: #edd8d4;
+  --gradient-hero: linear-gradient(
+    135deg,
+    var(--sage-soft) 0%,
+    #faf6ef 45%,
+    #f5ebe0 100%
+  );
+  --gradient-surface: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(253, 251, 247, 0.4) 100%
+  );
+}
