@@ -20,11 +20,11 @@ export default function TerminiDiServizio () {
           <p>
             Titolare (ditta individuale):
             {' '}
-            <strong>[DA COMPILARE: Nome e Cognome]</strong>
+            <strong>Lorella Trocchi</strong>
             {' '}
             – sede:
             {' '}
-            <strong>[DA COMPILARE: Indirizzo]</strong>
+            <strong>Via Edoardo Barberini, 24, 05100 Terni TR</strong>
             {' '}
             – CF/P.IVA:
             {' '}

@@ -20,11 +20,11 @@ export default function InformativaPrivacy () {
           <p>
             Il Titolare del trattamento è la ditta individuale:
             {' '}
-            <strong>[Lorella Trocchi]</strong>
+            <strong>Lorella Trocchi</strong>
             {' '}
             con sede in
             {' '}
-            <strong>[Via Edoardo Barberini, 24, 05100 Terni TR]</strong>
+            <strong>Via Edoardo Barberini, 24, 05100 Terni TR</strong>
             {' '}
             (CF/P.IVA:
             {' '}
