@@ -51,13 +51,7 @@ export function SiteFooter() {
             <p>
               <Link to="/chi-siamo#contattaci">Supporto email</Link>
             </p>
-            <p>0744 404633</p>
-          </div>
-          <div>
-            <h4>Aiuto</h4>
-            <p>FAQ e assistenza</p>
-            <p>Ordini e pagamenti</p>
-            <p>Spedizioni e resi</p>
+            <p>+39 0744 404633</p>
           </div>
           <div>
             <h4>Azienda</h4>

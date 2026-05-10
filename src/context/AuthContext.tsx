@@ -201,7 +201,9 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     if (!sb) {
       return { error: new Error('Supabase non configurato (variabili env mancanti).') }
     }
-    const redirectTo = `${globalThis.window.location.origin}/`
+    const stable = import.meta.env.VITE_SITE_URL?.trim()
+    const base = stable && /^https?:\/\//i.test(stable) ? stable.replace(/\/+$/, '') : globalThis.window.location.origin
+    const redirectTo = `${base}/`
     const { error } = await sb.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo },

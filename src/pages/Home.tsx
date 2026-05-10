@@ -10,67 +10,9 @@ export default function Home() {
   const isDesktop = useMediaQuery('(min-width: 1024px)')
 
   return (
-    <PageShell>
+    <PageShell footerOnMobile>
       {isDesktop ? <HomeDesktop /> : <HomeMobile />}
     </PageShell>
-  )
-}
-
-function HomeStories() {
-  return (
-    <section className="section stories-section">
-      <div className="section__header">
-        <div>
-          <span className="eyebrow">Le nostre storie</span>
-          <h2>Piccoli valori, grandi abitudini</h2>
-          <p>
-            Idee e cura dietro ogni tessuto che scegliamo per accompagnare la
-            crescita dei bambini.
-          </p>
-        </div>
-      </div>
-      <div className="stories-grid">
-        <article className="story-card">
-          <div
-            className="story-card__visual story-card__visual--sage"
-            aria-hidden="true"
-          />
-          <div className="story-card__body">
-            <h3>Materiali con criterio</h3>
-            <p>
-              Preferiamo fibre naturali e lavorazioni che rispettano la pelle
-              delicata e il pianeta dove cresceranno.
-            </p>
-          </div>
-        </article>
-        <article className="story-card story-card--reverse">
-          <div
-            className="story-card__visual story-card__visual--rose"
-            aria-hidden="true"
-          />
-          <div className="story-card__body">
-            <h3>Comunita al centro</h3>
-            <p>
-              Feedback di genitori e nonni ci aiuta a tenere nel catalogo solo
-              ciò che vale davvero la prova degli slacci e delle macchie.
-            </p>
-          </div>
-        </article>
-        <article className="story-card">
-          <div
-            className="story-card__visual story-card__visual--sky"
-            aria-hidden="true"
-          />
-          <div className="story-card__body">
-            <h3>Giornate leggere</h3>
-            <p>
-              Tagli pensati per muoversi, strati facili da togliere e combinare:
-              anche la mattina piu frenetica parte con un pizzico di leggerezza.
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
   )
 }
 
@@ -101,27 +43,6 @@ function HomeDesktop () {
         ) : (
           <ProductGrid products={products.slice(0, 6)} />
         )}
-      </section>
-      <HomeStories />
-      <section className="section section--cta">
-        <div className="cta-card">
-          <div>
-            <span className="eyebrow">Pronti per giocare</span>
-            <h3>Un look nuovo per ogni avventura</h3>
-            <p>
-              Scegli taglie facilmente e ricrea lo stesso comfort che vedi qui
-              in negozio, anche quando ordini da casa.
-            </p>
-          </div>
-          <div className="cta-actions">
-            <Link to="/catalogo" className="button button--primary">
-              Collezioni
-            </Link>
-            <button type="button" className="button button--ghost">
-              Lista desideri
-            </button>
-          </div>
-        </div>
       </section>
     </>
   )
@@ -155,7 +76,6 @@ function HomeMobile () {
           <ProductGrid products={products.slice(0, 8)} variant="compact" />
         )}
       </section>
-      <HomeStories />
     </>
   )
 }
